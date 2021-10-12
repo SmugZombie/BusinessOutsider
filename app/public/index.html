@@ -1,0 +1,20 @@
+<form action='' method='GET'>
+    <table>
+        <tr>
+            <td>Url to dump:</td> <td><input id='url' type='text' value='https://'/></td>
+        </tr>
+        <tr>
+            <td colspan=2><button type='button' onclick='loadUrl();'>Go</button></td>
+        </tr>
+    </table>
+</form>
+
+<script>
+function loadUrl(){
+    let url = encodeURIComponent(document.getElementById('url').value);
+
+    //console.log(url);
+
+    window.location.replace("/" + url);
+}
+</script>
