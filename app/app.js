@@ -9,11 +9,17 @@ require('dotenv').config()
 var config = require('./config/config');
 var parser = require('./lib/parser.js');
 
+if(config.app.env != "PROD"){
+    config.public.path = config.public.dev_directory;
+}else{
+    config.public.path = config.public.prod_directory;
+}
+
 // Allow for raw posts
 app.use(bodyParser.raw(options));
 
 app.get('/', async function(req, res, next){
-    res.sendFile('/usr/src/app/public/index.html');
+    res.sendFile(config.public.path + 'index.html');
 });
 
 app.get('/:url', async function(req, res, next){
