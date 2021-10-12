@@ -28,4 +28,4 @@ RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user} # <--- the '-m' create a
 # Switch to user
 USER ${uid}:${gid}
 
-CMD [ "node", "app/index.js" ]
+CMD [ "node", "app/app.js" ]
