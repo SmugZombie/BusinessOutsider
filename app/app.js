@@ -13,7 +13,7 @@ var parser = require('./lib/parser.js');
 app.use(bodyParser.raw(options));
 
 app.get('/', async function(req, res, next){
-    res.sendFile('/home/regli/github/BusinessOutsider/app/public/index.html');
+    res.sendFile('/usr/src/app/public/index.html');
 });
 
 app.get('/:url', async function(req, res, next){
