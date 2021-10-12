@@ -24,6 +24,10 @@ app.get('/:url', async function(req, res, next){
 
     content = "<p>" + content.join("</p><p>") + "</p>";
 
+    if(!url.startsWith("https://www.businessinsider.com") ){
+        res.status(404).send({error: "FQDN must match https://www.businessinsider.com"});
+    }
+
     if(content){
         res.status(200).send(content);
     }else{
