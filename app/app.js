@@ -22,6 +22,10 @@ app.get('/', async function(req, res, next){
     res.sendFile(config.public.path + 'index.html');
 });
 
+app.get('/examples', async function(req,res,next){
+    res.status(200).send(JSON.parse(config.app.example_links));
+})
+
 app.get('/:url', async function(req, res, next){
 
     let url = req.params.url;

@@ -28,6 +28,14 @@
                         </div>
                         <!--end of col-->
                     </div>
+                    <div class="row content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <h3>Example Links: </h3>
+                        </div>
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <div id='sample_links'></div>
+                        </div>                        
+                    </div>
 </div>
 
 <!-- <form action='' method='GET'>
@@ -42,6 +50,17 @@
 </form> -->
 
 <script>
+function loadSamples(){
+    $.getJSON( "/examples", function( data ) {
+        let examples = data;
+        let output = "";
+        for(i = 0; i < examples.length; i ++){
+            output += "<a href='./"+encodeURIComponent(examples[i])+"'>"+examples[i]+"</a><br>"
+        }
+        $("#sample_links").html(output);
+    });
+}
+
 function loadUrl(){
     let myurl = encodeURIComponent(document.getElementById('url').value);
 
@@ -49,6 +68,8 @@ function loadUrl(){
 
     window.location.replace("/" + myurl);
 }
+
+loadSamples();
 </script>
 
 <style>
