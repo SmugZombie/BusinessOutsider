@@ -26,13 +26,13 @@ app.get('/:url', async function(req, res, next){
 
     let url = req.params.url;
 
+    if(!url.startsWith("https://www.businessinsider.com") && !url.startsWith("https://www.wsj.com")){
+        res.status(404).send({error: "FQDN must match https://www.businessinsider.com or https://www.wsj.com"});
+    }
+
     let content = await parser.parseIt(url);
 
     content = "<p>" + content.join("</p><p>") + "</p>";
-
-    if(!url.startsWith("https://www.businessinsider.com") ){
-        res.status(404).send({error: "FQDN must match https://www.businessinsider.com"});
-    }
 
     if(content){
         res.status(200).send(content);

@@ -13,6 +13,18 @@ module.exports = class parser {
         ]});
         // Open a new tab
         const page = await browser.newPage();
+
+        await page.setExtraHTTPHeaders({
+            'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+            'upgrade-insecure-requests': '1',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+            'accept-encoding': 'gzip, deflate, br',
+            'accept-language': 'en-US,en;q=0.9,en;q=0.8',
+            'referer': "https://t.co/",
+            'X-Forwarded-For': '66.102.0.0'
+        })
+
+        await page.setCacheEnabled(false);
         // Go to epic_url
         await page.goto(url);
 
