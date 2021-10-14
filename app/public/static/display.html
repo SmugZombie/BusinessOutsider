@@ -1,0 +1,85 @@
+<br><br>
+<div class="container">
+
+    <div class="row">
+
+        <div id='loader'>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Hang Tight! We're fetching your article as fast as we can!</h3>
+                </div>
+                <div class="panel-body" id=''>
+                    <center>
+                        <img src='https://alreadydev.com/assets/images/loader.gif' />
+                    </center>
+                </div>
+            </div>
+            
+        </div>
+
+        <div id='content' style='display: none;'>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title" id='responsetitle'>Here's Your Article - Ad Free!</h3>
+                </div>
+                <div class="panel-body" id='responsedata'>
+                  Panel content
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var query = decodeURIComponent(window.location.pathname.substring(1));
+
+    console.log(query);
+
+    $('#queryinput').val(query);
+
+    function validURL(str) {
+        var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
+    }
+
+
+    function loadQuery(){
+        console.log("Loading: " + $('#queryinput').val());
+
+        if(!validURL($('#queryinput').val())){
+            $("#loader").hide();
+            $("#content").show();
+
+            $("#responsetitle").html("Uhoh.. ");
+            $("#responsedata").html("Invalid URL Provided. <br><br> <strong>" + $('#queryinput').val() + "</strong> <br><br>URL must have HTTPS/HTTP and using an allowed domain.");
+            return;
+        }
+
+
+        $.getJSON( "/puller/" + encodeURIComponent($('#queryinput').val()), function( data ) {
+            console.log(data);
+            let p = data;
+            let output = "";
+            for(i = 0; i < p.length; i ++){
+                output += "<p>" + p[i] + "</p>";
+            }
+            $("#loader").hide();
+            $("#content").show();
+            $("#responsedata").html(output);
+            console.log("Loaded");
+        });
+    }
+
+    loadQuery();
+
+
+</script>

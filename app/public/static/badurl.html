@@ -1,0 +1,23 @@
+<br><br>
+<div class="container">
+    <div class="row">
+        <div id='loader'>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Uhoh...</h3>
+                </div>
+                <div class="panel-body" id=''>
+                    That domain <strong><span id='queryDomain'></span></strong> is not currently supported!
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+
+<script>
+    var query = decodeURIComponent(window.location.pathname.substring(1));
+    $('#queryinput').val(query);
+
+    let domain = new URL(query).host;
+    $('#queryDomain').text(domain);
+</script>

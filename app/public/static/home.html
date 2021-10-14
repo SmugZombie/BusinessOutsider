@@ -1,0 +1,32 @@
+<br><br>
+<div class="container">
+
+    <div class="row">
+
+        <div id='main'>
+            <div class="panel panel-default">
+                <div class="panel-body" id=''>
+                    <h3>Welcome!</h3> Here is a quick an easy way to read a WSJ or BusinessInsider article ad free.. For Free!
+                    See an example below:<br>
+                    <span id='sample_links'></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function loadSamples(){
+        $.getJSON( "/examples", function( data ) {
+            let examples = data;
+            let output = "";
+            for(i = 0; i < examples.length; i ++){
+                output += "<a href='./"+encodeURIComponent(examples[i])+"'>"+examples[i]+"</a><br>"
+            }
+            $("#sample_links").html(output);
+        });
+    }
+
+loadSamples();
+</script>
