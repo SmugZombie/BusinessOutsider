@@ -16,6 +16,25 @@ if(config.app.env != "PROD"){
     config.public.path = config.public.prod_directory;
 }
 
+function checkValidDomain(url){
+	try{
+		let ALLOWED_DOMAINS = JSON.parse(config.app.allowed_domains);
+//		if(url in ALLOWED_DOMAINS){
+//			return true;
+//		}
+
+		for(let i = 0; i<ALLOWED_DOMAINS.length; i++){
+			if(url.startsWith(ALLOWED_DOMAINS[i])){
+				return true;
+			}
+		}
+
+		return false;
+	}catch(e){
+		console.error(e);
+	}
+}
+
 // Allow for raw posts
 app.use(bodyParser.raw(options));
 
@@ -46,8 +65,10 @@ app.get('/:url', async function(req, res, next){
     let url = req.params.url;
     console.log(url);
 
-    if(!url.startsWith("https://www.businessinsider.com") && !url.startsWith("https://www.wsj.com")){
+//    if(!url.startsWith("https://www.businessinsider.com") && !url.startsWith("https://www.wsj.com") && !url.startsWith("https://www.nytimes.com")){
+	if(!checkValidDomain(url)){
         //res.sendFile(config.public.path + 'badurl.html');
+	console.log("URL NOT ALLOWED");
         let body = await renderHeader();
         body += await renderFile("badurl.html");
         body += await renderFooter();
@@ -56,19 +77,24 @@ app.get('/:url', async function(req, res, next){
         return;
     }
 
+
+    console.log("URL ALLOWED");
     let body = await renderHeader();
     body += await renderDisplay();
     body += await renderFooter();
 
     res.status(200).send(body);
+    return;
 });
 
 app.get('/puller/:url', async function(req, res, next){
 
     let url = req.params.url;
 
-    if(!url.startsWith("https://www.businessinsider.com") && !url.startsWith("https://www.wsj.com")){
-        res.sendFile(config.public.path + 'badurl.html');
+    //if(!url.startsWith("https://www.businessinsider.com") && !url.startsWith("https://www.wsj.com") && !url.startsWith("https://www.nytimes.com") ){
+    if(!checkValidDomain(url)){
+    	res.sendFile(config.public.path + 'badurl.html');
+	return;
     }
 
     let content = await parser.parseIt(url);
